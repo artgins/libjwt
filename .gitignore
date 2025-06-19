@@ -4,3 +4,5 @@
 
 # VIM
 *.swp
+.idea/
+cmake-build-debug/

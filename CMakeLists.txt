@@ -30,14 +30,14 @@ find_package(PkgConfig REQUIRED)
 
 pkg_check_modules(JANSSON jansson>=2.0 REQUIRED IMPORTED_TARGET)
 
-if (NOT DEFINED WITH_GNUTLS)
-	set(GNUTLS_AUTO TRUE)
-endif()
+#if (NOT DEFINED WITH_GNUTLS)
+#	set(GNUTLS_AUTO TRUE)
+#endif()
 
-option(WITH_GNUTLS "Whether to use GnuTLS (default is auto detect)" ON)
+option(WITH_GNUTLS "Whether to use GnuTLS (default is auto detect)" OFF)
 option(WITH_MBEDTLS "Whether to use mbedTLS (default is OFF)" OFF)
 option(WITH_LIBCURL "Whether to include CUrl for retrieving JWKS (default is OFF)" OFF)
-option(WITH_TESTS "Whether to build and run the testsuite (default is ON)" ON)
+option(WITH_TESTS "Whether to build and run the testsuite (default is ON)" OFF)
 option(WITH_KCAPI_MD "Whether to use the Linux Kernel Crypto API to offload hmac (default OFF)" OFF)
 
 # Optional
@@ -62,8 +62,8 @@ if (WITH_KCAPI_MD)
 endif()
 
 # Required
-pkg_check_modules(OPENSSL openssl>=3.0.0 IMPORTED_TARGET
-		  REQUIRED)
+#pkg_check_modules(OPENSSL openssl>=3.0.0 IMPORTED_TARGET
+#		  REQUIRED)
 
 add_library(jwt SHARED)
 add_library(jwt_static STATIC)
@@ -146,12 +146,12 @@ if (MBEDTLS_FOUND)
 endif()
 
 set(HAVE_CRYPTO TRUE)
-add_definitions(-DHAVE_OPENSSL)
-target_link_libraries(jwt PUBLIC PkgConfig::OPENSSL)
-target_link_libraries(jwt_static PUBLIC PkgConfig::OPENSSL)
-list(APPEND JWT_SOURCES
-     libjwt/openssl/jwk-parse.c
-     libjwt/openssl/sign-verify.c)
+#add_definitions(-DHAVE_OPENSSL)
+#target_link_libraries(jwt PUBLIC PkgConfig::OPENSSL)
+#target_link_libraries(jwt_static PUBLIC PkgConfig::OPENSSL)
+#list(APPEND JWT_SOURCES
+#     libjwt/openssl/jwk-parse.c
+#     libjwt/openssl/sign-verify.c)
 
 if (LIBCURL_FOUND)
 	add_definitions(-DHAVE_LIBCURL)
@@ -159,32 +159,32 @@ if (LIBCURL_FOUND)
 	target_link_libraries(jwt_static PUBLIC PkgConfig::LIBCURL)
 endif()
 
-set(TOOLS)
-
-function(jwt_add_tool)
-	set(oneValueArgs NAME SRC DIR)
-	cmake_parse_arguments(Tool "" "${oneValueArgs}" "" ${ARGN})
-
-	list(APPEND TOOLS ${Tool_NAME})
-	add_executable(${Tool_NAME} ${Tool_SRC})
-	target_link_libraries(${Tool_NAME} PRIVATE jwt_static PkgConfig::OPENSSL)
-	# target_link_libraries(${Tool_NAME} PRIVATE jwt)
-	set_target_properties(${Tool_NAME} PROPERTIES
-		RUNTIME_OUTPUT_DIRECTORY
-		"${CMAKE_BINARY_DIR}/tools"
-		COMPILE_FLAGS -DJWT_STATIC_DEFINE)
-	install(TARGETS ${Tool_NAME}
-		RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-endfunction()
-
-jwt_add_tool(NAME jwt-verify
-	     SRC tools/jwt-verify.c)
-jwt_add_tool(NAME jwt-generate
-	     SRC tools/jwt-generate.c)
-jwt_add_tool(NAME jwk2key
-	     SRC tools/jwk2key.c)
-jwt_add_tool(NAME key2jwk
-	     SRC tools/key2jwk.c)
+#set(TOOLS)
+#
+#function(jwt_add_tool)
+#	set(oneValueArgs NAME SRC DIR)
+#	cmake_parse_arguments(Tool "" "${oneValueArgs}" "" ${ARGN})
+#
+#	list(APPEND TOOLS ${Tool_NAME})
+#	add_executable(${Tool_NAME} ${Tool_SRC})
+##	target_link_libraries(${Tool_NAME} PRIVATE jwt_static PkgConfig::OPENSSL)
+#	# target_link_libraries(${Tool_NAME} PRIVATE jwt)
+#	set_target_properties(${Tool_NAME} PROPERTIES
+#		RUNTIME_OUTPUT_DIRECTORY
+#		"${CMAKE_BINARY_DIR}/tools"
+#		COMPILE_FLAGS -DJWT_STATIC_DEFINE)
+#	install(TARGETS ${Tool_NAME}
+#		RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+#endfunction()
+#
+#jwt_add_tool(NAME jwt-verify
+#	     SRC tools/jwt-verify.c)
+#jwt_add_tool(NAME jwt-generate
+#	     SRC tools/jwt-generate.c)
+#jwt_add_tool(NAME jwk2key
+#	     SRC tools/jwk2key.c)
+#jwt_add_tool(NAME key2jwk
+#	     SRC tools/key2jwk.c)
 
 # We need one of the things above to even work
 if (NOT HAVE_CRYPTO)
