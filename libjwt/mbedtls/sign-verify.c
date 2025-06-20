@@ -368,9 +368,9 @@ struct jwt_crypto_ops jwt_mbedtls_ops = {
 	.verify_sha_pem		= mbedtls_verify_sha_pem,
 
 	/* Needs to be implemented */
-	.jwk_implemented	= 1,
-	.process_eddsa		= openssl_process_eddsa,
-	.process_rsa		= openssl_process_rsa,
-	.process_ec		= openssl_process_ec,
-	.process_item_free	= openssl_process_item_free,
+	.jwk_implemented	= 0,
+//	.process_eddsa		= openssl_process_eddsa,
+//	.process_rsa		= openssl_process_rsa,
+//	.process_ec		= openssl_process_ec,
+//	.process_item_free	= openssl_process_item_free,
 };

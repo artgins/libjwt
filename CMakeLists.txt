@@ -34,6 +34,7 @@ pkg_check_modules(JANSSON jansson>=2.0 REQUIRED IMPORTED_TARGET)
 #	set(GNUTLS_AUTO TRUE)
 #endif()
 
+option(WITH_OPENSSL "Whether to use Openssl (default is OFF)" OFF)
 option(WITH_GNUTLS "Whether to use GnuTLS (default is auto detect)" OFF)
 option(WITH_MBEDTLS "Whether to use mbedTLS (default is OFF)" OFF)
 option(WITH_LIBCURL "Whether to include CUrl for retrieving JWKS (default is OFF)" OFF)
@@ -146,6 +147,7 @@ if (MBEDTLS_FOUND)
 endif()
 
 set(HAVE_CRYPTO TRUE)
+
 #add_definitions(-DHAVE_OPENSSL)
 #target_link_libraries(jwt PUBLIC PkgConfig::OPENSSL)
 #target_link_libraries(jwt_static PUBLIC PkgConfig::OPENSSL)
