@@ -73,7 +73,7 @@ set_target_properties(jwt_static PROPERTIES
 	COMPILE_FLAGS -DJWT_STATIC_DEFINE)
 
 if (HAVE_KCAPI)
-	target_link_libraries(jwt PRIVATE kcapi)
+#	target_link_libraries(jwt PRIVATE kcapi)
 	target_link_libraries(jwt_static PRIVATE kcapi)
 	add_definitions(-DUSE_KCAPI_MD)
 endif()
@@ -93,7 +93,7 @@ add_custom_command(
 add_custom_target(gen_jwt_builder ALL DEPENDS jwt-builder.i)
 add_custom_target(gen_jwt_checker ALL DEPENDS jwt-checker.i)
 
-add_dependencies(jwt        gen_jwt_builder gen_jwt_checker)
+#add_dependencies(jwt        gen_jwt_builder gen_jwt_checker)
 add_dependencies(jwt_static gen_jwt_builder gen_jwt_checker)
 
 set(JWT_SOURCES libjwt/base64.c
@@ -118,12 +118,12 @@ endif()
 # Must come after the above so headers are available
 include(GenerateExportHeader)
 
-generate_export_header(jwt ${NO_BUILD_DEPRECATED})
+generate_export_header(jwt_static ${NO_BUILD_DEPRECATED})
 
 include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}
 		    ${CMAKE_SOURCE_DIR}/libjwt)
 
-target_link_libraries(jwt PUBLIC PkgConfig::JANSSON)
+#target_link_libraries(jwt PUBLIC PkgConfig::JANSSON)
 target_link_libraries(jwt_static PUBLIC PkgConfig::JANSSON)
 
 # Process the detected packages
@@ -131,7 +131,7 @@ set(HAVE_CRYPTO FALSE)
 if (GNUTLS_FOUND)
 	set(HAVE_CRYPTO TRUE)
         add_definitions(-DHAVE_GNUTLS)
-	target_link_libraries(jwt PUBLIC PkgConfig::GNUTLS)
+#	target_link_libraries(jwt PUBLIC PkgConfig::GNUTLS)
 	target_link_libraries(jwt_static PUBLIC PkgConfig::GNUTLS)
 	list(APPEND JWT_SOURCES
 	     libjwt/gnutls/sign-verify.c)
@@ -140,7 +140,7 @@ endif()
 if (MBEDTLS_FOUND)
 	set(HAVE_CRYPTO TRUE)
 	add_definitions(-DHAVE_MBEDTLS)
-	target_link_libraries(jwt PUBLIC PkgConfig::MBEDTLS)
+#	target_link_libraries(jwt PUBLIC PkgConfig::MBEDTLS)
 	target_link_libraries(jwt_static PUBLIC PkgConfig::MBEDTLS)
 	list(APPEND JWT_SOURCES
 	     libjwt/mbedtls/sign-verify.c)
@@ -157,7 +157,7 @@ set(HAVE_CRYPTO TRUE)
 
 if (LIBCURL_FOUND)
 	add_definitions(-DHAVE_LIBCURL)
-	target_link_libraries(jwt PUBLIC PkgConfig::LIBCURL)
+#	target_link_libraries(jwt PUBLIC PkgConfig::LIBCURL)
 	target_link_libraries(jwt_static PUBLIC PkgConfig::LIBCURL)
 endif()
 
@@ -193,16 +193,16 @@ if (NOT HAVE_CRYPTO)
 	message(FATAL_ERROR "No crypto support detected")
 endif()
 
-target_sources(jwt PRIVATE ${JWT_SOURCES})
+#target_sources(jwt PRIVATE ${JWT_SOURCES})
 target_sources(jwt_static PRIVATE ${JWT_SOURCES})
 
-target_include_directories(jwt PUBLIC
+target_include_directories(jwt_static PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
 	$<INSTALL_INTERFACE:include>
 )
 
 # Define versioning for the library (comes from configure.ac)
-set_target_properties(jwt PROPERTIES
+set_target_properties(jwt_static PROPERTIES
 	VERSION ${LIBJWT_VERSION_INFO}
 	SOVERSION ${LIBJWT_COMPATVERSION}
 )
@@ -217,12 +217,12 @@ install(FILES LICENSE README.md
 	DESTINATION ${CMAKE_INSTALL_DOCDIR})
 
 # Install library
-install(TARGETS jwt
-	EXPORT ${LIBJWT_PROJECT}Targets
-	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
+#install(TARGETS jwt
+#	EXPORT ${LIBJWT_PROJECT}Targets
+#	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+#)
 
 # Install Static library
 install(TARGETS jwt_static
