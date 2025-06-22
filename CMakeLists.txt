@@ -66,7 +66,7 @@ endif()
 #pkg_check_modules(OPENSSL openssl>=3.0.0 IMPORTED_TARGET
 #		  REQUIRED)
 
-add_library(jwt SHARED)
+#add_library(jwt SHARED) No shared please
 add_library(jwt_static STATIC)
 set_target_properties(jwt_static PROPERTIES
 	OUTPUT_NAME jwt
