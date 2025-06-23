@@ -231,11 +231,11 @@ install(TARGETS jwt_static
 )
 
 # For cmake users
-install(EXPORT ${LIBJWT_PROJECT}Targets
-	FILE ${LIBJWT_PROJECT}Config.cmake
-	NAMESPACE ${LIBJWT_PROJECT}::
-	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${LIBJWT_PROJECT}
-)
+#install(EXPORT ${LIBJWT_PROJECT}Targets
+#	FILE ${LIBJWT_PROJECT}Config.cmake
+#	NAMESPACE ${LIBJWT_PROJECT}::
+#	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${LIBJWT_PROJECT}
+#)
 
 # For pkg-config users
 unset(LIBJWT_LDFLAGS)
