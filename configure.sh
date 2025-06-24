@@ -1,14 +1,9 @@
 #!/bin/bash
 
-CFLAGS="-Wno-error=char-subscripts -O3 -g -ggdb -fPIC"
-#CFLAGS+=" -I/lib/modules/$(uname -r)/build/include"
-export CFLAGS
 export PKG_CONFIG_PATH=/yuneta/development/outputs_ext_static/lib/pkgconfig
-export CC=/usr/local/bin/musl-gcc
-export LDFLAGS="-static"
-
-export CFLAGS="-Wno-error=char-subscripts -O2 -DNDEBUG -fPIC"
-#export LDFLAGS="-static -no-pie"
+export CC=/usr/bin/musl-gcc
+export CFLAGS="-Wno-error=char-subscripts -O2 -g -DNDEBUG -fPIC"
+export LDFLAGS="-static -no-pie"
 
 
 # rm -rf build
